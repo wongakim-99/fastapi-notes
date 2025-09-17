@@ -1,0 +1,80 @@
+name: "📖 새로운 학습 노트 (New Study Log)"
+description: "새로운 개념이나 디자인 패턴 학습 과정을 기록합니다."
+title: "[Study] "
+labels: ["study", "documentation"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📚 학습 노트 작성 가이드
+        새로운 개념이나 디자인 패턴을 학습하고 구현하는 과정을 체계적으로 기록해보세요.
+        
+  - type: textarea
+    id: learning_objective
+    attributes:
+      label: "Ⅰ. 학습 목표 (Learning Objective)"
+      description: "이번 학습을 통해 달성하고자 하는 목표를 구체적으로 작성해주세요."
+      placeholder: "예: Strategy Pattern을 이해하고 FastAPI에서 알림 시스템에 적용해보기"
+    validations:
+      required: true
+
+  - type: textarea
+    id: core_keywords
+    attributes:
+      label: "Ⅱ. 핵심 키워드 (Core Keywords)"
+      description: "학습할 주요 키워드들을 나열해주세요."
+      placeholder: |
+        - Strategy Pattern
+        - Polymorphism
+        - Interface Design
+        - FastAPI
+      render: markdown
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: learning_plan
+    attributes:
+      label: "Ⅲ. 학습 및 구현 계획 (Plan)"
+      description: "학습 진행 상황을 체크해보세요."
+      options:
+        - label: "**1. 개념 학습**"
+        - label: "[Notion] 학습 내용 및 이론 정리"
+        - label: "**2. 코드 구현**"
+        - label: "기본 구조 및 인터페이스 설계"
+        - label: "핵심 로직 구현 (e.g., 전략 클래스들)"
+        - label: "애플리케이션에 통합 (e.g., FastAPI 엔드포인트)"
+        - label: "**3. 회고 및 정리**"
+        - label: "[README.md] 구현 내용 및 배운 점 요약"
+        - label: "[PR] 코드 리뷰 및 최종 정리"
+
+  - type: textarea
+    id: challenges_solutions
+    attributes:
+      label: "Ⅳ. 고민과 해결 (Challenges & Solutions)"
+      description: "학습 과정에서 마주한 문제점들과 해결 방법을 기록해주세요."
+      placeholder: |
+        **문제:** Import 경로 오류 발생
+        **해결:** 상대 경로를 절대 경로로 변경 (`from app.strategies.email_strategy import EmailStrategy`)
+        
+        **문제:** ...
+        **해결:** ...
+      render: markdown
+
+  - type: textarea
+    id: references
+    attributes:
+      label: "Ⅴ. 참고 자료 (References)"
+      description: "학습에 참고한 자료들을 링크와 함께 정리해주세요."
+      placeholder: |
+        - [Design Patterns: Elements of Reusable Object-Oriented Software](https://example.com)
+        - [FastAPI Documentation](https://fastapi.tiangolo.com/)
+        - [Python Type Hints](https://docs.python.org/3/library/typing.html)
+      render: markdown
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        💡 **Tip:** 이슈를 생성한 후, 학습 진행에 따라 체크박스를 업데이트하고 댓글로 진행 상황을 기록해보세요!
