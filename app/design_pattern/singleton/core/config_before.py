@@ -7,15 +7,18 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 class AppSettings:
+    """
+    앱의 설정을 관리하는 싱글톤 클래스
+    """
     _instance = None  # 유일한 인스턴스를 저장할 클래스 변수
 
     # 1. __new__ 메서드를 오버라이딩하여 객체 생성을 제어
     def __new__(cls):
         if not cls._instance:
-            logger.info(f"✅ App Settings : 단 하나의 설정 객체를 최초로 생성합니다.")
+            logger.info(f"✅ (나쁜 예시) App Settings : 단 하나의 설정 객체를 최초로 생성합니다.")
             cls ._instance = super().__new__(cls)
         else:
-            logger.info(f"✅ App Settings : 이미 생성된 객체를 반환합니다.")
+            logger.info(f"✅ (나쁜 예시) App Settings : 이미 생성된 객체를 반환합니다.")
 
         return cls ._instance
 
@@ -30,6 +33,12 @@ class AppSettings:
     def get_theme(self):
         return self.settings['theme']
 
+    def set_theme(self, theme: str):
+        logger.info(f"  -> 테마를 '{self.get_theme()}'에서 '{theme}'(으)로 변경합니다.")
+        self.settings['theme'] = theme
+
 
 # 싱글톤 인스턴스를 전역 변수로 생성
+# 이것이 싱글톤 패턴이 적용안된 나쁜 방식의 핵심입니다.
+# 다른 파일에서는 이 'settings' 변수를 직접 import 하여 사용하게 됩니다.
 settings = AppSettings()

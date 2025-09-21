@@ -3,7 +3,11 @@
 # 강한 결합(Tight Coupling) 을 유발하여 테스트를 거의 불가능하게 만든다.
 
 from fastapi import FastAPI
-from app.design_pattern.singleton.core.config_before import settings  # 이 부분이 문제의 핵심
+
+# 이 부분이 문제의 핵심입니다.
+# 특정 파일 (config_bad) 의 특정 변수 (settings) 를 직접 가져와 사용합니다.
+# 해당 코드는 settings 변수 없이는 절대 동작할 수 없습니다.
+from app.design_pattern.singleton.core.config_before import settings
 
 import logging
 
@@ -14,21 +18,24 @@ app = FastAPI()
 
 logger.info("FastAPI 애플리케이션 싱글톤 패턴(나쁜예시) 시작")
 
-class ReportGenerator:
-    def __init__(self):
-        # 해당 클래스는 core.config_before.py 의 'settings' 객체가 없으면 동작할 수 없음
-        # 'settings' 와 운명 공동체가 됨 (강한 결합)
-        pass
+@app.get("/bad")
+def get_current_theme():
+    logger.info("\n--- API 요청: '/bad' ---")
 
-    def generate(self):
-        # 비즈니스 로직 안에서 전역 싱글톤을 직접 사용
-        current_theme = settings.get_theme()
-        return f"현재 테마 '{current_theme}' 기반의 리포트 생성 완료!"
+    # 전역 변수로 import 한 settings 객체를 직접 사용합니다.
+    current_theme = settings.get_theme()
+    logger.info(f"  [API] 현재 테마 조회: {current_theme}")
 
-@app.get("/")
-def get_report():
-    # ReportGenerator 를 사용하려면 그냥 생성하면 됨
-    # 하지만 이 클래스가 내부적으로 'settings'에 의존하는지는 밖에서는 알기 힘듬
-    reporter = ReportGenerator()
+    return {"example_type" : "bad", "current_theme" : current_theme}
 
-    return {"report" : reporter.generate()}
+@app.put("bad/theme/{theme_name}")
+def change_theme(theme_name: str):
+    logger.info(f"\n--- API 요청: '/bad/theme/{theme_name}' ---")
+    logger.info(f"  [API] 테마를 '{theme_name}' (으)로 변경 요청...")
+
+    # 전역 변수 settings 의 상태를 직접 변경합니다.
+    settings.set_theme(theme_name)
+    new_theme = settings.get_theme()
+
+    logger.info(f"  [API] 변경 완료된 테마: {new_theme}")
+    return {"message" : "Theme changed successfully", "new_theme" : new_theme}
