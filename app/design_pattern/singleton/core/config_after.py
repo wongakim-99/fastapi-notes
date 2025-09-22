@@ -42,7 +42,6 @@ class AppSettings:
 
 
 # 싱글톤 인스턴스를 전역 변수로 생성
-settings = AppSettings()
 
 # 앞선 before_settings 와 차이점이 있다면 전역 인스턴스를 생성하는 코드를 삭제
 # settings = AppSettings() -> 해당 줄 삭제
